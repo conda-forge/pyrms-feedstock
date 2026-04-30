@@ -1,0 +1,43 @@
+schema_version: 1
+
+context:
+  name: pyrms
+  version: "1.0.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pyrms-${{ version }}.tar.gz
+  sha256: a9081032b39687370fc475f3fc9e8e32deb85ab5e0c9ecfa727ef5f6ad174a5a
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - pyrms
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Python wrapper for the ReactionMechanismSimulator
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/ReactionMechanismGenerator/pyrms
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
